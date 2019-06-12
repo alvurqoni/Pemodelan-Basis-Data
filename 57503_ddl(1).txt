@@ -1,0 +1,65 @@
+CREATE TABLE MATA_KULIAH(
+	KODE_MATAKULIAH VARCHAR2(10), 
+  NAMA_MATAKULIAH VARCHAR2(20),
+	SKS             CHAR    (5),
+	constraint mata_kuliah_pk primary key (kode_matakuliah) enable
+);
+
+CREATE TABLE JURUSAN(
+	KODE_JURUSAN VARCHAR2(10), 
+  NAMA_JURUSAN VARCHAR2(20),
+	FAKULTAS     VARCHAR2(20),
+ 	constraint jurusan_pk primary key (kode_jurusan) enable
+);
+
+
+
+CREATE TABLE MAHASISWA(
+	NIM               VARCHAR2(10), 
+  NAMA_MAHASISWA    VARCHAR2(20),
+  ALAMAT            VARCHAR2(40),
+	KELAS             VARCHAR2(10), 
+  Nilai             VARCHAR2(5),
+  Status_Pembayaran VARCHAR2(6),
+	constraint mahasiswa_pk primary key (NIM) enable
+  );
+  
+CREATE TABLE DOSEN(
+	ID_DOSEN        VARCHAR2(10), 
+        NAMA_DOSEN      VARCHAR2(20),
+        KONTAK          VARCHAR2(12),
+	STATUS          VARCHAR2(15),
+	KODE_MATAKULIAH VARCHAR2(10),
+	constraint dosen_pk primary key (id_dosen) enable,
+        CONSTRAINT DOSEN_FK1 FOREIGN KEY (KODE_MATAKULIAH) REFERENCES MATA_KULIAH(KODE_MATAKULIAH),
+	 
+);
+
+CREATE TABLE KELAS(
+
+  nama_kelas      VARCHAR2(10),
+	constraint kelas_pk primary key (nama_kelas) enable
+);
+
+CREATE TABLE REGISTRASI(
+  ID_REGISTRASI  VARCHAR2(10),
+  TGL_REGISTRASI VARCHAR2(10),
+  NIM            VARCHAR2(10),
+  constraint registrasi_pk primary key (ID_REGISTRASI) enable,
+  CONSTRAINT REGISTRASI_FK1 FOREIGN KEY (NIM) REFERENCES MAHASISWA (NIM)
+);
+
+CREATE TABLE DETAIL_REGISTRASI(
+  ID_DETAIL   VARCHAR2(10),
+  ID_REGISTRASI  VARCHAR2(10),
+	KODE_MATAKULIAH VARCHAR2(10),
+	NAMA_KELAS	VARCHAR2(10),
+	ID_DOSEN	VARCHAR2(10),
+	JADWAL		VARCHAR2(15),
+  constraint detail_registrasi_pk primary key (ID_DETAIL) enable,
+	CONSTRAINT detail_registrasi_FK1 FOREIGN KEY (KODE_MATAKULIAH) REFERENCES MATA_KULIAH (KODE_MATAKULIAH),
+	CONSTRAINT detail_registrasi_FK2 FOREIGN KEY (NAMA_KELAS) REFERENCES KELAS (NAMA_KELAS),
+	CONSTRAINT detail_registrasi_FK3 FOREIGN KEY (ID_DOSEN) REFERENCES DOSEN(ID_DOSEN),
+  CONSTRAINT detail_registrasi_FK4 FOREIGN KEY (ID_REGISTRASI) REFERENCES REGISTRASI (ID_REGISTRASI)
+);
+
